@@ -1,4 +1,4 @@
-# vue_learning
+# new_vue_app1
 
 ## Project setup
 ```
