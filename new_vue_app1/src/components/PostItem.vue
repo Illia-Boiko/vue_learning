@@ -3,7 +3,7 @@
     <div>
       <div>
         <strong>Name: </strong>
-        {{ post.title }}
+        {{ post.id + '|||' + '' + post.title }}
       </div>
       <div>
         <strong>Description:</strong>
@@ -15,6 +15,11 @@
         @click="$emit('remove', post)"
       >
         Delete
+      </my-button>
+      <my-button
+        @click="$router.push(`/posts/${post.id}`)"
+      >
+        Open
       </my-button>
     </div>
   </div>
@@ -44,5 +49,10 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .post__buttons {
+    display: flex;
+    gap: 5px;
   }
 </style>

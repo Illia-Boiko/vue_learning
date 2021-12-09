@@ -50,8 +50,6 @@ export default defineComponent({
       if (post.title.length > 0 && post.body.length > 0) {
         post.id = Date.now();
         this.$emit('create', post);
-        console.log(post);
-
         this.clearPost();
       }
     },

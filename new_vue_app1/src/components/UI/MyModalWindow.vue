@@ -2,7 +2,7 @@
   <div
     class="modalWindow"
     v-if="isVisible"
-    @click="this.$emit('update:isVisible', false)"
+    @click="hideModalWindow"
   >
     <div class="modalWindow__content" @click.stop>
       <slot></slot>
@@ -11,17 +11,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/runtime-core"
+import { defineComponent } from "@vue/runtime-core";
+import toggleMixin from '@/mixins/toggleMixin';
 
 export default defineComponent({
   name: 'my-modal-window',
 
-  props: {
-    isVisible: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  mixins: [toggleMixin],
+
+  methods: {
+    hideModalWindow() {
+      this.$emit('update:isVisible', false);
+    }
+  }
 });
 </script>
 
