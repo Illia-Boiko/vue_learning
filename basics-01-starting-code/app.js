@@ -2,19 +2,16 @@ const app = Vue.createApp({
   data() {
     return {
       courseGoalA: 'Finish the course and learn Vue!',
-      courseGoalB: 'Kazkoviy',
-      vueLink: 'https://webtricks-master.ru/react-hooks/uchim-usememo-na-primerah/',
-    };
+      courseGoalB: 'Learn vue!',
+      vueLink: 'https://google.com',
+    }
   },
 
   methods: {
     outputGoal() {
-      if (Math.random() < 0.5) {
-        return this.courseGoalA;
-      } else {
-        return this.courseGoalB;
-      };
-    },
+      const randomNumber = Math.random();
+      return randomNumber < 0.5 ? this.courseGoalA : this.courseGoalB;
+    }
   }
 });
 

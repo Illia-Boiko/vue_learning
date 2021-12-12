@@ -3,7 +3,6 @@ import PostsPage from '@/pages/PostsPage.vue';
 import AboutPage from '@/pages/AboutPage.vue';
 import PostIdPage from '@/pages/PostIdPage.vue';
 import PostPageWithStore from '@/pages/PostPageWithStore.vue';
-import PostsPageComposition from '@/pages/PostsPageComposition.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
