@@ -30,7 +30,7 @@
           v-if="invalidInput"
         >One or more input fields are invalid. Please check your provided data.</p>
         <div>
-          <base-button>Submit</base-button>
+          <base-button @click="submitSurvey">Submit</base-button>
         </div>
       </form>
     </base-card>
@@ -46,7 +46,7 @@ export default {
       invalidInput: false,
     };
   },
-  emits: ['survey-submit'],
+  // emits: ['survey-submit'],
   methods: {
     submitSurvey() {
       if (this.enteredName === '' || !this.chosenRating) {
@@ -55,10 +55,22 @@ export default {
       }
       this.invalidInput = false;
 
-      this.$emit('survey-submit', {
-        userName: this.enteredName,
-        rating: this.chosenRating,
-      });
+      // this.$emit('survey-submit', {
+      //   userName: this.enteredName,
+      //   rating: this.chosenRating,
+      // });
+
+      const response = fetch('https://vue-http-demo-88-default-rtdb.europe-west1.firebasedatabase.app/players.json', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: this.enteredName,
+          rating: this.chosenRating,
+        }),
+      })
+      console.log(response);
 
       this.enteredName = '';
       this.chosenRating = null;
