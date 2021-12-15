@@ -9,7 +9,7 @@
         :role="member.role"
       ></user-item>
     </ul>
-    <router-link to="/teams/t2">To team 2</router-link>
+    <button @click="onClick">Ok</button>
   </section>
 </template>
 
@@ -18,21 +18,22 @@ import UserItem from '../users/UserItem.vue';
 
 export default {
   inject: ['users', 'teams'],
+  props: ['teamId'],
   components: {
     UserItem
   },
   data() {
     return {
       teamName: '',
-      members: []
+      members: [],
+      ok: true
     };
   },
 
   methods: {
-    reloadTeam() {
-      // this.$route.path // /teams/t1
-      const teamId = this.$route.params.teamId;
+    reloadTeam(teamId) {
       const selectedTeam = this.teams.find(team => team.id === teamId);
+
       const members = selectedTeam.members;
       const selectedMembers = [];
       for (const member of members) {
@@ -41,17 +42,35 @@ export default {
       }
       this.members = selectedMembers;
       this.teamName = selectedTeam.name;
+    },
+
+    onClick() {
+      this.ok = !this.ok;
     }
   },
 
   created() {
-    this.reloadTeam();
+    this.reloadTeam(this.teamId);
+  },
+
+  beforeRouteLeave(_, _2, next) {
+    if (this.ok) {
+      next();
+    } else {
+      const leave = confirm('?');
+      console.log(leave);
+      next(leave);
+    }
   },
 
   watch: {
-    $route() {
-      this.reloadTeam();
-    }
+    teamId() {
+      this.reloadTeam(this.teamId);
+    },
+  },
+
+  beforeRouteEnter(_, _2, next) {
+    next();
   }
 };
 </script>
