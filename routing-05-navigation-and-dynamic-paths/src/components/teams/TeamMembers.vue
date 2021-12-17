@@ -9,6 +9,7 @@
         :role="member.role"
       ></user-item>
     </ul>
+    <button @click="onClick">Ok</button>
   </section>
 </template>
 
@@ -17,27 +18,59 @@ import UserItem from '../users/UserItem.vue';
 
 export default {
   inject: ['users', 'teams'],
+  props: ['teamId'],
   components: {
     UserItem
   },
   data() {
     return {
       teamName: '',
-      members: []
+      members: [],
+      ok: true
     };
   },
-  created() {
-    // this.$route.path // /teams/t1
-    const teamId = this.$route.params.teamId;
-    const selectedTeam = this.teams.find(team => team.id === teamId);
-    const members = selectedTeam.members;
-    const selectedMembers = [];
-    for (const member of members) {
-      const selectedUser = this.users.find(user => user.id === member);
-      selectedMembers.push(selectedUser);
+
+  methods: {
+    reloadTeam(teamId) {
+      const selectedTeam = this.teams.find(team => team.id === teamId);
+
+      const members = selectedTeam.members;
+      const selectedMembers = [];
+      for (const member of members) {
+        const selectedUser = this.users.find(user => user.id === member);
+        selectedMembers.push(selectedUser);
+      }
+      this.members = selectedMembers;
+      this.teamName = selectedTeam.name;
+    },
+
+    onClick() {
+      this.ok = !this.ok;
     }
-    this.members = selectedMembers;
-    this.teamName = selectedTeam.name;
+  },
+
+  created() {
+    this.reloadTeam(this.teamId);
+  },
+
+  beforeRouteLeave(_, _2, next) {
+    if (this.ok) {
+      next();
+    } else {
+      const leave = confirm('?');
+      console.log(leave);
+      next(leave);
+    }
+  },
+
+  watch: {
+    teamId() {
+      this.reloadTeam(this.teamId);
+    },
+  },
+
+  beforeRouteEnter(_, _2, next) {
+    next();
   }
 };
 </script>
